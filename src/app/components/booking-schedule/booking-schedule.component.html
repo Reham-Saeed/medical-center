@@ -1,0 +1,127 @@
+<section id="booking" class="py-40 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-10">
+      <h2 class="text-4xl font-bold mb-4 text-gray-800">
+        Book Your Appointment
+      </h2>
+      <p class="text-lg text-gray-600">
+        Schedule your visit with our expert medical team.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div class="space-y-6">
+        <div
+          class="bg-gradient-to-br from-sky-50 to-cyan-50 p-6 rounded-xl shadow-sm"
+        >
+          <h3 class="text-2xl font-semibold mb-4 text-gray-800">
+            Contact Information
+          </h3>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <i class="mr-3 pi pi-phone text-sky-600"></i>
+              <div>
+                <p class="font-semibold">Phone</p>
+                <p>+1 (555) 123-4567</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="mr-3 pi pi-envelope text-sky-600"></span>
+              <div>
+                <p class="font-semibold">Email</p>
+                <p>appointments.com</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="mr-3 pi pi-clock text-sky-600"></span>
+              <div>
+                <p class="font-semibold">Clinic Hours</p>
+                <p>Mon-Fri: 8 AM - 6 PM</p>
+                <p>Sat: 9 AM - 4 PM</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-sky-600 text-white p-6 rounded-xl shadow-sm">
+          <h3 class="text-xl font-semibold mb-2">Emergency Care</h3>
+          <p class="mb-2">
+            For emergencies, please call our 24/7 emergency line or visit the
+            emergency department.
+          </p>
+          <p class="font-semibold">Emergency: +1 (555) 911-0000</p>
+        </div>
+      </div>
+      <div class="border rounded-xl p-6 shadow-sm">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Book Appointment</h2>
+        <div class="mb-6">
+          <label class="block mb-2 text-gray-700 font-medium"
+            >Select Department:</label
+          >
+          <select
+            class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-sky-500"
+            (change)="onSelectDepartment($event)"
+          >
+            <option value="">-- Select --</option>
+            <option *ngFor="let dep of departments" [value]="dep.id">
+              {{ dep.name }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="selectedDepartment && filteredDoctors.length > 0"
+          class="overflow-x-auto mb-8"
+        >
+          <h3 class="text-2xl font-semibold mb-4 text-gray-800">
+            Available Slots
+          </h3>
+          <table
+            class="min-w-full border border-gray-200 rounded-lg overflow-hidden"
+          >
+            <thead class="bg-sky-600 text-white">
+              <tr>
+                <th class="p-3 text-left align-middle">Doctor</th>
+                <th class="p-3 text-left align-middle">Day</th>
+                <th class="p-3 text-left align-middle">Time</th>
+                <th class="p-3 text-left align-middle">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let doc of filteredDoctors">
+                <tr
+                  *ngFor="let slot of doc.schedule"
+                  class="hover:bg-sky-50 transition-colors"
+                >
+                  <td class="border-t border-gray-200 p-3 align-middle">
+                    {{ doc.name }}
+                  </td>
+                  <td class="border-t border-gray-200 p-3 align-middle">
+                    {{ slot.day }}
+                  </td>
+                  <td class="border-t border-gray-200 p-3 align-middle">
+                    {{ slot.time }}
+                  </td>
+                  <td class="border-t border-gray-200 p-3 align-middle">
+                    <button
+                      class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-lg transition"
+                      (click)="book(doc, slot)"
+                    >
+                      Book
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <app-booking-form
+          *ngIf="showForm"
+          [doctor]="selectedDoctor"
+          [department]="selectedDepartment"
+          [slot]="selectedSlot"
+          (formClosed)="showForm = false"
+        ></app-booking-form>
+      </div>
+    </div>
+  </div>
+</section>

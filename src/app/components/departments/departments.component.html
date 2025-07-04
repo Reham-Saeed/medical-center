@@ -1,0 +1,40 @@
+<section id="departments" class="py-40 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+       <div class="text-center mb-10">
+      <h2 class="text-4xl font-bold text-center text-gray-900 mb-6">
+      Our Medical Departments
+    </h2>
+    <p class="text-lg text-gray-600">Comprehensive healthcare services across multiple specialties with expert physicians <br> and cutting-edge medical technology.</p>
+
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      @for (dept of departments; track dept.id) {
+        <div
+          class="relative rounded-xl shadow-lg overflow-hidden group cursor-pointer"
+          [routerLink]="['/departments', dept.id]"
+        >
+          <img
+            [src]="dept.image"
+            [alt]="dept.name"
+            class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+
+          <div
+            class="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors"
+          ></div>
+
+          <div
+            class="absolute inset-0 flex items-center justify-center"
+          >
+            <h2
+              class="text-2xl font-bold text-white group-hover:text-sky-300 transition-colors"
+            >
+              {{ dept.name }}
+            </h2>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

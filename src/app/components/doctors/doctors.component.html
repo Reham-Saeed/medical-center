@@ -1,0 +1,47 @@
+<section id="doctors" class="bg-gray-50 py-40">
+  <div class="max-w-7xl mx-auto px-20">
+    <div class="text-center mb-10">
+      <h2 class="text-4xl font-bold text-gray-900 mb-6">Our Doctors</h2>
+      <p class="text-lg text-gray-600">
+        Our team of highly qualified physicians brings years of experience and
+        dedication to <br />
+        providing exceptional patient care.
+      </p>
+    </div>
+
+    <div class="swiper doctor-swiper">
+      <div class="swiper-wrapper">
+        @for (doctor of doctors; track doctor.id) {
+        <div class="swiper-slide">
+          <div
+            class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full"
+          >
+            <img
+              [src]="doctor.image"
+              [alt]="doctor.name"
+              class="w-full h-96 object-cover"
+            />
+            <div class="p-4 text-center flex flex-col flex-grow">
+              <h3 class="text-xl font-semibold text-gray-900">
+                {{ doctor.name }}
+              </h3>
+              <p class="text-sm text-gray-500 mb-4">
+                {{ doctor.specialty }}
+              </p>
+              <a
+                [routerLink]="['/doctors', doctor?.id]"
+                class="mt-auto inline-block px-3 py-1.5 rounded-full text-sm font-semibold text-sky-600 border border-sky-600 hover:bg-sky-600 hover:text-white transition"
+              >
+                View Profile
+              </a>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      <div class="swiper-button-next !text-sky-600"></div>
+      <div class="swiper-button-prev !text-sky-600"></div>
+      <div class="swiper-pagination !bottom-0 !text-sky-600"></div>
+    </div>
+  </div>
+</section>

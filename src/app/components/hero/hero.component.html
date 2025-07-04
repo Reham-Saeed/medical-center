@@ -1,0 +1,92 @@
+<section
+  id="hero"
+  class="relative bg-gradient-to-br from-sky-50 to-cyan-50 py-20 pt-[160px]"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+          Your Health,
+          <span class="text-sky-600">Our Mission</span>
+        </h1>
+        <p class="mt-6 text-xl text-gray-600 leading-relaxed">
+          Receive personalized care from top medical experts using advanced
+          technology — all in a healing environment where your well-being comes
+          first.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+          <button
+            (click)="scrollToSection('#departments')"
+            class="bg-sky-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-sky-700 transition-colors flex items-center justify-center space-x-2"
+          >
+            <span>Explore Our Services</span>
+            <i class="pi pi-arrow-right text-sm"></i>
+          </button>
+          <button
+            (click)="scrollToSection('#departments')"
+            class="border-2 border-sky-600 text-sky-600 px-8 py-4 rounded-lg font-semibold hover:bg-sky-600 hover:text-white transition-colors"
+          >
+            Learn More
+          </button>
+        </div>
+      </div>
+      <div class="relative">
+        <img
+          src="https://images.pexels.com/photos/4021775/pexels-photo-4021775.jpeg?auto=compress&cs=tinysrgb&w=800"
+          alt="Medical team"
+          class="rounded-2xl shadow-2xl"
+        />
+        <div
+          class="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-lg"
+        >
+          <div class="flex items-center space-x-3">
+            <div class="bg-green-100 p-2 rounded-lg">
+              <i class="pi pi-shield text-green-600 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900">99.8% Success Rate</p>
+              <p class="text-sm text-gray-600">Patient Satisfaction</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats section -->
+    <div class="mt-20 grid md:grid-cols-3 gap-8">
+      <div class="text-center">
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <div
+            class="bg-sky-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <i class="pi pi-users text-sky-600 text-2xl"></i>
+          </div>
+          <h3 class="text-3xl font-bold text-gray-900">50K+</h3>
+          <p class="text-gray-600">Patients Treated</p>
+        </div>
+      </div>
+      <div class="text-center">
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <div
+            class="bg-cyan-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <i class="pi pi-clock text-cyan-600 text-2xl"></i>
+          </div>
+          <h3 class="text-3xl font-bold text-gray-900">24/7</h3>
+          <p class="text-gray-600">Emergency Care</p>
+        </div>
+      </div>
+      <div class="text-center">
+        <div class="bg-white p-6 rounded-xl shadow-lg">
+          <div
+            class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <i class="pi pi-shield text-teal-600 text-2xl"></i>
+          </div>
+          <h3 class="text-3xl font-bold text-gray-900">15+</h3>
+          <p class="text-gray-600">Years of Excellence</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

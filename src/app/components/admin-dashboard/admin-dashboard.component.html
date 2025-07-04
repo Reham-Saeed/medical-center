@@ -1,0 +1,393 @@
+<div class="py-40 px-4 max-w-7xl mx-auto">
+  <h1 class="text-3xl font-bold mb-4">Admin Dashboard</h1>
+
+  <!-- Tabs -->
+  <div class="mb-6 flex space-x-4">
+    <button
+      (click)="activeTab = 'departments'"
+      [class.active]="activeTab === 'departments'"
+      class="tab-btn"
+    >
+      Departments
+    </button>
+    <button
+      (click)="activeTab = 'doctors'"
+      [class.active]="activeTab === 'doctors'"
+      class="tab-btn"
+    >
+      Doctors
+    </button>
+  </div>
+
+  <!-- Add Button -->
+  <button
+    (click)="
+      activeTab === 'departments' ? openAddDepartment() : openAddDoctor()
+    "
+    class="btn btn-primary mb-4"
+  >
+    <span
+      >{{ 'Add ' + (activeTab === 'departments' ? 'Department' : 'Doctor') }}</span
+    >
+  </button>
+
+  <!-- Departments Table -->
+  <table
+    *ngIf="activeTab === 'departments'"
+    class="table-auto w-full border-collapse border border-gray-300"
+  >
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="border border-gray-300 p-2">Image URL</th>
+        <th class="border border-gray-300 p-2">Name</th>
+        <th class="border border-gray-300 p-2">Description</th>
+        <th class="border border-gray-300 p-2">Services</th>
+        <th class="border border-gray-300 p-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dept of departments;">
+        <td class="border border-gray-300 p-2">
+          <img
+            [src]="dept.image"
+            [alt]="dept.name"
+            class="h-10 w-16 object-cover rounded"
+          />
+        </td>
+        <td class="border border-gray-300 p-2">{{ dept.name }}</td>
+        <td class="border border-gray-300 p-2">{{ dept.description }}</td>
+        <td class="border border-gray-300 p-2">
+          <ul class="list-disc pl-5">
+            <li *ngFor="let service of dept.services">{{ service }}</li>
+          </ul>
+        </td>
+        <td class="border border-gray-300 p-2 space-x-2">
+          <button (click)="openEditDepartment(dept)" class="text-sky-600">
+             <i class="pi pi-pen-to-square"></i>
+          </button>
+          <button (click)="deleteDepartment(dept)" class="text-red-500">
+             <i class="pi pi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Doctors Table -->
+  <table
+    *ngIf="activeTab === 'doctors'"
+    class="table-auto w-full border-collapse border border-gray-300"
+  >
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="border border-gray-300 p-2">Image</th>
+        <th class="border border-gray-300 p-2">Name</th>
+        <th class="border border-gray-300 p-2">Specialty</th>
+        <th class="border border-gray-300 p-2">Phone</th>
+        <th class="border border-gray-300 p-2">Email</th>
+        <th class="border border-gray-300 p-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let doc of doctors;">
+        <td class="border border-gray-300 p-2">
+          <img
+            [src]="doc.image"
+            [alt]="doc.name"
+            class="h-10 w-16 object-cover rounded"
+          />
+        </td>
+        <td class="border border-gray-300 p-2">{{ doc.name }}</td>
+        <td class="border border-gray-300 p-2">{{ doc.specialty }}</td>
+        <td class="border border-gray-300 p-2">{{ doc.phone }}</td>
+        <td class="border border-gray-300 p-2">{{ doc.email }}</td>
+        <td class="border border-gray-300 p-2 space-x-2">
+          <button (click)="openEditDoctor(doc)" class="text-sky-500">
+            <i class="pi pi-pen-to-square"></i>
+          </button>
+          <button (click)="deleteDoctor(doc)" class="text-red-500">
+            <i class="pi pi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Department Dialog -->
+  <p-dialog
+    [(visible)]="displayDepartmentDialog"
+    [modal]="true"
+    [responsive]="true"
+    [style]="{ width: '450px' }"
+    [contentStyle]="{
+      'backdrop-filter': 'blur(10px)',
+      background: 'rgba(255, 255, 255, 0.95)',
+      padding: '2rem',
+      borderRadius: '0.75rem',
+      boxShadow: '0 15px 30px rgba(0,0,0,0.15)'
+    }"
+    [baseZIndex]="10000"
+  >
+    <h3 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-2">
+      {{ isEditingDepartment ? 'Edit Department' : 'Add Department' }}
+    </h3>
+
+    <form class="space-y-5">
+      <div>
+        <label for="deptName" class="block mb-2 text-gray-700 font-medium">
+          Name
+        </label>
+        <input
+          id="deptName"
+          name="deptName"
+          type="text"
+          [(ngModel)]="departmentFormData.name"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+          placeholder="Enter department name"
+        />
+      </div>
+      <div>
+        <label for="deptImage" class="block mb-2 text-gray-700 font-medium">
+          Image URL
+        </label>
+        <input
+          id="deptImage"
+          name="deptImage"
+          type="text"
+          [(ngModel)]="departmentFormData.image"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+          placeholder="Enter image URL"
+        />
+      </div>
+      <div>
+        <label
+          for="deptDescription"
+          class="block mb-2 text-gray-700 font-medium"
+          >Description</label
+        >
+        <textarea
+          id="deptDescription"
+          name="deptDescription"
+          rows="3"
+          [(ngModel)]="departmentFormData.description"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition resize-none"
+          placeholder="Enter department description"
+        ></textarea>
+      </div>
+      <div>
+        <label
+          for="deptServices"
+          class="block mb-2 text-gray-700 font-medium"
+          >Services (comma separated)</label
+        >
+        <input
+          id="deptServices"
+          name="deptServices"
+          type="text"
+          [(ngModel)]="departmentFormData.services"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+          placeholder="e.g. ECG, Stress Test, Heart Surgery"
+        />
+      </div>
+    </form>
+
+    <div class="flex justify-end space-x-4 mt-8">
+      <button
+        type="button"
+        (click)="displayDepartmentDialog = false"
+        class="px-5 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="saveDepartment()"
+        class="px-6 py-2 rounded-md bg-sky-600 text-white font-semibold hover:bg-sky-700 transition"
+      >
+        Save
+      </button>
+    </div>
+  </p-dialog>
+
+  <!-- Doctor Dialog -->
+  <p-dialog
+    [(visible)]="displayDoctorDialog"
+    [modal]="true"
+    [responsive]="true"
+    [style]="{ width: '520px' }"
+    [contentStyle]="{
+      'backdrop-filter': 'blur(10px)',
+      background: 'rgba(255, 255, 255, 0.95)',
+      padding: '2rem',
+      borderRadius: '0.75rem',
+      boxShadow: '0 15px 30px rgba(0,0,0,0.15)'
+    }"
+    [baseZIndex]="10000"
+  >
+    <form class="space-y-6">
+      <div>
+        <label for="docName" class="block mb-2 text-gray-700 font-medium">
+          Name
+        </label>
+        <input
+          id="docName"
+          name="docName"
+          type="text"
+          [(ngModel)]="doctorFormData.name"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+          placeholder="Enter doctor name"
+        />
+      </div>
+
+      <div>
+        <label
+          for="docSpecialty"
+          class="block mb-2 text-gray-700 font-medium"
+        >
+          Specialty
+        </label>
+        <input
+          id="docSpecialty"
+          name="docSpecialty"
+          type="text"
+          [(ngModel)]="doctorFormData.specialty"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+          placeholder="Enter specialty"
+        />
+      </div>
+
+      <div>
+        <label for="docImage" class="block mb-2 text-gray-700 font-medium">
+          Image URL
+        </label>
+        <input
+          id="docImage"
+          name="docImage"
+          type="text"
+          [(ngModel)]="doctorFormData.image"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+          placeholder="Enter image URL"
+        />
+      </div>
+
+      <div>
+        <label
+          for="docQualifications"
+          class="block mb-2 text-gray-700 font-medium"
+          >Qualifications (comma separated)</label
+        >
+        <input
+          id="docQualifications"
+          name="docQualifications"
+          type="text"
+          [(ngModel)]="doctorFormData.qualifications"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+          placeholder="e.g. MBBS, MD, PhD"
+        />
+      </div>
+
+      <div>
+        <label for="docExperience" class="block mb-2 text-gray-700 font-medium">
+          Experience
+        </label>
+        <textarea
+          id="docExperience"
+          name="docExperience"
+          rows="2"
+          [(ngModel)]="doctorFormData.experience"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition resize-none"
+          placeholder="Enter experience details"
+        ></textarea>
+      </div>
+
+      <div>
+        <label for="docSchedule" class="block mb-2 text-gray-700 font-medium">
+          Schedule (JSON)
+        </label>
+        <textarea
+          id="docSchedule"
+          name="docSchedule"
+          rows="3"
+          [(ngModel)]="doctorFormData.schedule"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition resize-none"
+          placeholder='Example: [{"day":"Sunday","time":"4PM-8PM"}]'
+        ></textarea>
+      </div>
+
+      <div>
+        <label for="docPhone" class="block mb-2 text-gray-700 font-medium">
+          Phone
+        </label>
+        <input
+          id="docPhone"
+          name="docPhone"
+          type="text"
+          [(ngModel)]="doctorFormData.phone"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+          placeholder="Enter phone number"
+        />
+      </div>
+
+      <div>
+        <label for="docEmail" class="block mb-2 text-gray-700 font-medium">
+          Email
+        </label>
+        <input
+          id="docEmail"
+          name="docEmail"
+          type="email"
+          [(ngModel)]="doctorFormData.email"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+          placeholder="Enter email address"
+        />
+      </div>
+
+      <div>
+        <label for="docBiography" class="block mb-2 text-gray-700 font-medium">
+          Biography
+        </label>
+        <textarea
+          id="docBiography"
+          name="docBiography"
+          rows="4"
+          [(ngModel)]="doctorFormData.biography"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition resize-none"
+          placeholder="Enter biography"
+        ></textarea>
+      </div>
+
+      <div>
+        <label for="docDepartmentID" class="block mb-2 text-gray-700 font-medium">
+          Department
+        </label>
+        <select
+          id="docDepartmentID"
+          name="docDepartmentID"
+          [(ngModel)]="doctorFormData.departmentID"
+          class="w-full rounded-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+        >
+          <option *ngFor="let dept of departments" [value]="dept.id">
+            {{ dept.name }}
+          </option>
+        </select>
+      </div>
+    </form>
+
+    <div class="flex justify-end space-x-4 mt-8">
+      <button
+        type="button"
+        (click)="displayDoctorDialog = false"
+        class="px-5 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="saveDoctor()"
+        class="px-6 py-2 rounded-md bg-sky-600 text-white font-semibold hover:bg-sky-700 transition"
+      >
+        Save
+      </button>
+    </div>
+  </p-dialog>
+</div>

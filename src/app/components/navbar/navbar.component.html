@@ -1,0 +1,148 @@
+<nav class="bg-white shadow-lg fixed top-0 left-0 w-full z-50">
+  <!-- Top bar -->
+  <div class="bg-sky-600 text-white py-2">
+    <div
+      class="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm"
+    >
+      <div class="flex items-center space-x-6">
+        <div class="flex items-center space-x-1">
+          <i class="pi pi-phone"></i>
+          <span>Emergency: +1 (555) 911-0000</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-1">
+          <i class="pi pi-map-marker"></i>
+          <span>123 Medical Center Blvd, Health City</span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <div class="hidden md:block">
+          <span>24/7 Emergency Services Available</span>
+        </div>
+        <button
+          (click)="navigateToAdminLogin()"
+          class="flex items-center space-x-1 hover:text-sky-200 transition-colors"
+        >
+          <i class="pi pi-shield"></i>
+          <span>Are you admin?</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main bar -->
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center">
+        <a routerLink="/" class="flex items-center space-x-2">
+          <img
+            src="https://us1-photo.nextdoor.com/business_logo/00/ce/00ce16d760a9a31d6dcc1c51e726100c.png"
+            alt=""
+            class="w-20 h-20 object-contain"
+          />
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">HealthCare</h1>
+            <p class="text-sm text-gray-600">Excellence in Medical Care</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Desktop menu -->
+      <nav class="hidden md:flex space-x-8">
+        <button
+          routerLink="/"
+          class="text-gray-700 hover:text-sky-600 font-medium transition-colors"
+        >
+          Home
+        </button>
+        <button
+          routerLink="/departments"
+          class="text-gray-700 hover:text-sky-600 font-medium transition-colors"
+        >
+          Departments
+        </button>
+        <button
+          routerLink="/doctors"
+          class="text-gray-700 hover:text-sky-600 font-medium transition-colors"
+        >
+          Doctors
+        </button>
+        <button
+          routerLink="/booking-schedule"
+          class="text-gray-700 hover:text-sky-600 font-medium transition-colors"
+        >
+          Book Appointment
+        </button>
+        <button
+          (click)="scrollToSection('#contact')"
+          class="text-gray-700 hover:text-sky-600 font-medium transition-colors"
+        >
+          Contact
+        </button>
+        @if (isAdmin) {
+        <a
+          (click)="navigateToAdminDashboard()"
+          class="bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors font-medium"
+        >
+          Admin Dashboard
+        </a>
+
+        <button
+          (click)="logout()"
+          class="text-gray-700 hover:text-sky-600 font-medium"
+        >
+          Logout
+        </button>
+        }
+      </nav>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button (click)="toggleMenu()" class="text-gray-700 hover:text-sky-600">
+          @if (!isMenuOpen) {
+          <i class="pi pi-bars text-xl"></i>
+          } @else {
+          <i class="pi pi-times text-xl"></i>
+          }
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    @if (isMenuOpen) {
+    <div class="md:hidden py-4 border-t border-gray-200">
+      <nav class="flex flex-col space-y-2">
+        <button
+          (click)="scrollToSection('/')"
+          class="text-gray-700 hover:text-sky-600 font-medium py-2 text-left transition-colors"
+        >
+          Home
+        </button>
+        <button
+          (click)="scrollToSection('#departments')"
+          class="text-gray-700 hover:text-sky-600 font-medium py-2 text-left transition-colors"
+        >
+          Departments
+        </button>
+        <button
+          (click)="scrollToSection('#doctors')"
+          class="text-gray-700 hover:text-sky-600 font-medium py-2 text-left transition-colors"
+        >
+          Doctors
+        </button>
+        <button
+          (click)="scrollToSection('#booking')"
+          class="text-gray-700 hover:text-sky-600 font-medium py-2 text-left transition-colors"
+        >
+          Book Appointment
+        </button>
+        <button
+          (click)="scrollToSection('#contact')"
+          class="text-gray-700 hover:text-sky-600 font-medium py-2 text-left transition-colors"
+        >
+          Contact
+        </button>
+      </nav>
+    </div>
+    }
+  </div>
+</nav>
